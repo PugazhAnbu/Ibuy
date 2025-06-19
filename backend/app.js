@@ -2,10 +2,34 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const dotenv = require("dotenv");
+const cors = require("cors");
 //dotenv module namma config.env file connect pannaum, apdi connect panna matum tan namma config file ulla kudutha variable lam node js use panna mudium.
 dotenv.config({ path: path.join(__dirname, "config/config.env") });
 
 const app = express();
+
+// ✅ List of allowed origins
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://ibuy-frontend.onrender.com",
+];
+
+// ✅ Custom CORS options
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, // if you're using cookies or auth headers
+};
+
+// ✅ Use CORS with custom options
+app.use(cors(corsOptions));
 //request la vara json data express accept pannikum below line
 app.use(express.json());
 app.use(cookieParser()); // intha package for req.cookies vara data va edudhu use panradhu parser panni object kudukkum

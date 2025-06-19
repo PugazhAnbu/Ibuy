@@ -4,12 +4,12 @@ import {
   productsRequest,
   productsSuccess,
 } from "../slices/productsSlice";
-
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 export const getProducts =
   (keyword, price, category, rating, currentPage) => async (dispatch) => {
     try {
       dispatch(productsRequest());
-      let link = `/api/v1/products?page=${currentPage}`;
+      let link = `${BASE_URL}/api/v1/products?page=${currentPage}`;
       if (keyword) {
         link += `&keyword=${keyword}`;
       }
